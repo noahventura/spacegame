@@ -108,36 +108,44 @@ textureLoader.load('images/spaceship.png', function(texture) {
 
     function onDocumentKeyDown(event) {
         const keyCode = event.which;
-
+    
         if (keyCode == 38 || keyCode == 87) { // Up or W
             spaceshipVelocity.y = moveSpeed;
+            spaceship.scale.x = 1;  // Reset the spaceship to original orientation
         } else if (keyCode == 40 || keyCode == 83) { // Down or S
             spaceshipVelocity.y = -moveSpeed;
+            spaceship.scale.x = 1;  // Reset the spaceship to original orientation
         } else if (keyCode == 37 || keyCode == 65) { // Left or A
             spaceshipVelocity.x = -moveSpeed;
+            spaceship.scale.x = -1;  // Flip the spaceship horizontally
         } else if (keyCode == 39 || keyCode == 68) { // Right or D
             spaceshipVelocity.x = moveSpeed;
+            spaceship.scale.x = 1;  // Reset the spaceship to original orientation
         }
         //spacebar - check for delay to see whether laser can be fired
         if (keyCode ==32){
             const currentTime = new Date().getTime();
-        if (currentTime - lastShotTime > laserCooldown) {
-            shootLaser();
-            playLaserSound();
-            lastShotTime = currentTime;
-        }
+            if (currentTime - lastShotTime > laserCooldown) {
+                shootLaser();
+                playLaserSound();
+                lastShotTime = currentTime;
+            }
         }
     }
-    //stop moving when key released
+    
     function onDocumentKeyUp(event) {
         const keyCode = event.which;
-
+    
         if (keyCode == 38 || keyCode == 87 || keyCode == 40 || keyCode == 83) {
             spaceshipVelocity.y = 0;
         } else if (keyCode == 37 || keyCode == 65 || keyCode == 39 || keyCode == 68) {
             spaceshipVelocity.x = 0;
+            if (spaceship.scale.x == -1) {
+                spaceship.scale.x = 1;  // Reset the spaceship to original orientation when the key is released
+            }
         }
     }
+    
     //playsound
     function playLaserSound() {
         if (!laserSoundBuffer) return;  // If the sound buffer isn't loaded yet, do nothing
