@@ -111,16 +111,21 @@ textureLoader.load('images/spaceship.png', function(texture) {
     
         if (keyCode == 38 || keyCode == 87) { // Up or W
             spaceshipVelocity.y = moveSpeed;
-            spaceship.scale.x = 1;  // Reset the spaceship to original orientation
+            spaceship.rotation.z = -Math.PI / 2;  // Rotate 45 degrees counterclockwise
+
         } else if (keyCode == 40 || keyCode == 83) { // Down or S
             spaceshipVelocity.y = -moveSpeed;
-            spaceship.scale.x = 1;  // Reset the spaceship to original orientation
+             spaceship.rotation.z = Math.PI / 2;  // Rotate 45 degrees clockwise
+
         } else if (keyCode == 37 || keyCode == 65) { // Left or A
             spaceshipVelocity.x = -moveSpeed;
-            spaceship.scale.x = -1;  // Flip the spaceship horizontally
+            spaceship.scale.x = -1; // Flip horizontally using scale
+
+
         } else if (keyCode == 39 || keyCode == 68) { // Right or D
             spaceshipVelocity.x = moveSpeed;
-            spaceship.scale.x = 1;  // Reset the spaceship to original orientation
+            spaceship.scale.x = 1; // Flip horizontally using scale
+
         }
         //spacebar - check for delay to see whether laser can be fired
         if (keyCode ==32){
@@ -138,11 +143,10 @@ textureLoader.load('images/spaceship.png', function(texture) {
     
         if (keyCode == 38 || keyCode == 87 || keyCode == 40 || keyCode == 83) {
             spaceshipVelocity.y = 0;
+            spaceship.rotation.z = 0;  // Reset rotation
         } else if (keyCode == 37 || keyCode == 65 || keyCode == 39 || keyCode == 68) {
             spaceshipVelocity.x = 0;
-            if (spaceship.scale.x == -1) {
-                spaceship.scale.x = 1;  // Reset the spaceship to original orientation when the key is released
-            }
+            // Do not reset the rotation here to maintain the last direction the spaceship faced
         }
     }
     
